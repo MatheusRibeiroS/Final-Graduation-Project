@@ -4,6 +4,6 @@ import { ChatgptService } from './chatgpt.service';
 
 @Module({
   controllers: [ChatgptController],
-  providers: [ChatgptService]
+  providers: [ChatgptService],
 })
 export class ChatgptModule {}
