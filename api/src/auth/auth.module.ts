@@ -5,7 +5,12 @@ import { JwtStrategy } from './jwt.strategy';
 import { PassportModule } from '@nestjs/passport';
 
 @Module({
-  imports: [PassportModule.register({ defaultStrategy: 'jwt' })],
+  imports: [
+    PassportModule.register({
+      defaultStrategy: 'jwt',
+      signOptions: { expiresIn: '10000s' },
+    }),
+  ],
   providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
   exports: [PassportModule],

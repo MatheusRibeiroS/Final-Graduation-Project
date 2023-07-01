@@ -24,7 +24,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: unknown): unknown {
-    return payload;
+  async validate(payload: any) {
+    return { token: payload.token, userInfo: payload.userInfo };
   }
 }

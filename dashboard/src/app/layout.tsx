@@ -1,6 +1,7 @@
-import './globals.css'
-import { ReactNode } from 'react'
-import Link from 'next/link'
+'use client'
+import "./globals.css";
+import { ReactNode } from "react";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata = {
   title: "TCC - Bachelor's Thesis",
@@ -8,18 +9,12 @@ export const metadata = {
   image: "/favicon.ico",
 };
 
-
-
-export default function RootLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        {children}
+        <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
-  )
+  );
 }
