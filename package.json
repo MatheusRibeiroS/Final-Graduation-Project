@@ -1,0 +1,15 @@
+{
+  "name": "final-graduation-project",
+  "version": "0.0.1",
+  "description": "",
+  "author": "MatheusRibeiroS - Matheus dos Santos Ribeiro Silva",
+  "private": true,
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"cd api&&npm run start:dev\" \"cd dashboard&&npm run dev\"",
+    "start:dev": "nest start --watch"
+  },
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
+}
