@@ -6,8 +6,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "start": "concurrently \"cd api&&npm run start:dev\" \"cd dashboard&&npm run dev\"",
-    "start:dev": "nest start --watch"
+    "start": "concurrently \"cd api&&npm run start:dev\" \"cd dashboard&&npm run dev\""
   },
   "dependencies": {
     "concurrently": "^8.2.0"
