@@ -11,8 +11,11 @@
   "dependencies": {
     "@auth0/auth0-spa-js": "^2.0.8",
     "@auth0/nextjs-auth0": "^2.6.2",
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
+    "@mui/material": "^5.14.2",
     "@types/node": "20.2.5",
     "@types/react": "18.2.7",
     "@types/react-dom": "18.2.4",

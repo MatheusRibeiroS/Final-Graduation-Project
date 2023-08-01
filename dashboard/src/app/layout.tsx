@@ -1,7 +1,8 @@
-'use client'
+"use client";
 import "./globals.css";
 import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
+import TemporaryDrawer from "../components/drawer";
 
 export const metadata = {
   title: "TCC - Bachelor's Thesis",
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
+        <TemporaryDrawer/>
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
