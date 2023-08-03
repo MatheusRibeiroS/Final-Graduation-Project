@@ -10,7 +10,6 @@ export default async function Home() {
       <div>
         {/* <button onClick={() => signIn("google")}>entrar</button>
         <button onClick={() => signOut()}>sair</button> */}
-        <Link href="/teste">page</Link>
         {/* <SlideOvers /> */}
       </div>
     </main>
