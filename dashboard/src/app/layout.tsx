@@ -2,7 +2,7 @@
 import "./globals.css";
 import { ReactNode } from "react";
 import { SessionProvider } from "next-auth/react";
-import TemporaryDrawer from "../components/drawer";
+import HorizontalDrawer from "../components/drawer";
 
 export const metadata = {
   title: "TCC - Bachelor's Thesis",
@@ -14,7 +14,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <TemporaryDrawer/>
+        <HorizontalDrawer/>
+         {/* <iframe src="https://vscode.dev/" width="800" height="600"></iframe> */}
         <SessionProvider>{children}</SessionProvider>
       </body>
     </html>
