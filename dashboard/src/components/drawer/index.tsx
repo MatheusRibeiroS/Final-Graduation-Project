@@ -36,7 +36,11 @@ export default function HorizontalDrawer() {
 
   const list = (anchor: Anchor) => (
     <Box
-      sx={{ width: anchor === "top" || anchor === "bottom" ? "auto" : 250 }}
+      sx={{
+        height: "100%",
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 600,
+        backgroundColor: "#202123",
+      }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
@@ -71,11 +75,21 @@ export default function HorizontalDrawer() {
   );
 
   return (
-    <div>
+    <Box>
       {(["left", "right"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
+            sx={{
+              marginLeft: "10%",
+              zIndex: 0,
+              "& .MuiDrawer-root": {
+                position: "absolute",
+              },
+              "& .MuiPaper-root": {
+                position: "absolute",
+              },
+            }}
             anchor={anchor}
             open={state[anchor]}
             onClose={toggleDrawer(anchor, false)}
@@ -84,6 +98,6 @@ export default function HorizontalDrawer() {
           </Drawer>
         </React.Fragment>
       ))}
-    </div>
+    </Box>
   );
 }
