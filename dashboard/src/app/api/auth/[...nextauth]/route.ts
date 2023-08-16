@@ -2,6 +2,7 @@ import NextAuth from "next-auth";
 import Auth0Provider from "next-auth/providers/auth0";
 import GoogleProvider from "next-auth/providers/google";
 import jwt from 'next-auth/jwt'
+import fs from 'fs'
 
 const handler = NextAuth({
   debug: true,
@@ -26,6 +27,13 @@ const handler = NextAuth({
       if (account?.access_token) {
         token.access_token = account.access_token;
       }
+      // create json file with accounbt object
+      fs.writeFile('userCredentials.json', JSON.stringify(account), (err) => {
+        if (err) throw err;
+        console.log('Data written to file');
+      });
+
+      console.log('token', token)
       return token;
     },
   },
