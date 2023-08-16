@@ -3,15 +3,13 @@ import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
-import HomeIcon from "@mui/icons-material/Home";
+import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import Grid from "@mui/material/Grid";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
-export default function HorizontalDrawer() {
+export default function RightDrawer() {
   const [state, setState] = React.useState({
-    top: false,
-    left: false,
-    bottom: false,
     right: false,
   });
 
@@ -33,16 +31,28 @@ export default function HorizontalDrawer() {
     <Box
       sx={{
         height: "100%",
-        width: anchor === "top" || anchor === "bottom" ? "auto" : 600,
+        width: anchor === "top" || anchor === "bottom" ? "auto" : 250,
         backgroundColor: "#202123",
       }}
       role="presentation"
       onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
-      <List>
-        <HomeIcon fontSize="large" />
-      </List>
+      <Grid direction="column">
+        <Grid display="flex">
+          <button className="text-sidebar flex w-[150px] flex-shrink-0 ml-3 mt-5 cursor-pointer select-none items-center gap-2 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10">
+            {"Pesquisa..."}
+          </button>
+          <Box className="ml-2 mt-6">
+            <Button className="bg-transparent rounded-md border border-white gap-2"
+              // onClick={handleCreateFolder}
+            >
+              <CreateNewFolderIcon />
+            </Button>
+          </Box>
+        </Grid>
+        <Grid></Grid>
+      </Grid>
       {/* <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
           <ListItem key={text} disablePadding>
@@ -71,7 +81,7 @@ export default function HorizontalDrawer() {
 
   return (
     <Box>
-      {(["left"] as const).map((anchor) => (
+      {(["right"] as const).map((anchor) => (
         <React.Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
