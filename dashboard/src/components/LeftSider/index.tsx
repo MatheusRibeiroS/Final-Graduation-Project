@@ -18,7 +18,13 @@ export default function LeftSider() {
           <HomeIcon fontSize="large" />
         </Button>
         <Button className="button-marging">
-          <Avatar alt="Remy Sharp" src="https://source.unsplash.com/50x50" />
+          <Avatar
+            alt="Remy Sharp"
+            src={
+              `https://lh3.googleusercontent.com/a/AAcHTteVdUovAIOdz7Qqr5xUeodeuqFrWl6eDKFJQxMS79hHgGE=s96-c` ||
+              `https://source.unsplash.com/50x50`
+            }
+          />
         </Button>
         <Button className="button-marging">
           <EditNoteIcon fontSize="large" />

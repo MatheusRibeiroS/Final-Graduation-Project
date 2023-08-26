@@ -105,8 +105,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         >
           {/* <SwipeableEdgeDrawer /> */}
-          {/* <HorizontalDrawer />
-          <LeftSider /> */}
+          <HorizontalDrawer />
+          <LeftSider />
           {/* <Promptbar /> */}
           {/* <RightDrawer /> */}
           {/* <Container>

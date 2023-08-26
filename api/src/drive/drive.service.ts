@@ -1,113 +1,90 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, BadRequestException } from '@nestjs/common';
 import { authenticate } from '@google-cloud/local-auth';
 import { google } from 'googleapis';
 import mime from 'mime-types';
-import fs from 'fs';
-import { googleAuthProps } from 'src/utils/types/drive-types';
-import { OAuth2Client } from 'google-auth-library';
+import * as fs from 'fs';
+import { GoogleData } from '@/types/google';
+import { OAuth2Client, GoogleAuth } from 'google-auth-library';
+import axios from 'axios';
 
 @Injectable()
 export class DriveService {
-  getFilesList(auth: OAuth2Client, query?: string) {
-    const drive = google.drive({ version: 'v3', auth });
-    drive.files.list(
-      {
-        pageSize: 100,
-        fields:
-          'nextPageToken, files(id, name, mimeType, parents, webViewLink, webContentLink, iconLink, thumbnailLink)',
-        q: query,
-      },
-      (err: any, res: any) => {
-        if (err) return console.log('The API returned an error: ' + err);
-        const files = res.data.files;
-        if (files.length) {
-          console.log('Files:');
-          files.map((file: any) => {
-            console.log(`${file.name} (${file.id})`);
-          });
-          return files;
-        } else {
-          console.log('No files found.');
-        }
-      },
-    );
-  }
-
-  async createFolder(auth: OAuth2Client, folderName: string) {
-    try {
-      const drive = google.drive({ version: 'v3', auth: auth });
-      const fileMetadata = {
-        name: folderName,
-        mimeType: 'application/vnd.google-apps.folder',
-      };
-      drive.files.create(
-        {
-          // resource: fileMetadata,
-          fields: 'id',
-        },
-        function (err, file) {
-          if (err) {
-            // Handle error
-            console.error(err);
-          } else {
-            console.log('Folder Id:', file.data.id);
-          }
-        },
-      );
-    } catch (err) {
-      console.error('Error uploading file:', err);
-    }
-  }
-
-  async deleteFile(auth: OAuth2Client, fileId: string) {
-    try {
-      const drive = google.drive({ version: 'v3', auth: auth });
-      const response = await drive.files.delete({ fileId });
-      console.log(response);
-    } catch (err) {
-      console.error('Error deleting file:', err);
-    }
-  }
-
-  // async downloadFile(auth: OAuth2Client, fileId: string) {
+  // async getAuth() {
+  //   const auth = new GoogleAuth({
+  //     scopes: 'https://www.googleapis.com/auth/drive',
+  //   });
+  //   const service = google.drive({ version: 'v3', auth });
+  //   const requestBody = {
+  //     name: 'photo.jpg',
+  //     fields: 'id',
+  //   };
+  //   const media = {
+  //     mimeType: 'image/jpeg',
+  //     body: fs.createReadStream('mock.txt', 'utf8'),
+  //   };
   //   try {
-  //     const drive = google.drive({ version: 'v3', auth: auth });
-  //     const response = await drive.files.get(
-  //       { fileId, alt: 'media' },
-  //       { responseType: 'stream' },
-  //     );
-  //     const filePath = `./${fileId}`;
-  //     const dest = fs.createWriteStream(filePath);
-  //     response.data
-  //       .on('end', () => {
-  //         console.log('Done downloading file.');
-  //       })
-  //       .on('error', (err: any) => {
-  //         console.error('Error downloading file.');
-  //       })
-  //       .pipe(dest);
-  //   } catch (err) {
-  //     console.error('Error downloading file:', err);
-  //   }
-  // }
-
-  // async downloadFile(auth: OAuth2Client, fileId: string) {
-  //   try {
-  //     const drive = google.drive({ version: 'v3', auth: auth });
-  //     const response = await drive.files.get({
-  //       fileId: fileId,
-  //       alt: 'media',
+  //     const file = await service.files.create({
+  //       requestBody,
+  //       media: media,
   //     });
-  //     const fileData = response.data;
-  //     const mimeType = response.headers['content-type'];
-  //     console.log('mimetype', mimeType);
-  //     const fileExtension = mime.extension(mimeType);
-  //     const filePath = `teste.${fileExtension}`;
-
-  //     await fs.writeFile(filePath, fileData, 'binary');
-  //     console.log('The file has been saved!');
+  //     console.log('File Id:', file.data.id);
+  //     return file.data.id;
   //   } catch (err) {
-  //     console.error('Error downloading file:', err);
+  //     console.log('erro:', err);
+  //     throw err;
   //   }
   // }
+
+  async getFilesList(auth: GoogleData, folderId?: string) {
+    let url;
+
+    folderId
+      ? (url = `https://www.googleapis.com/drive/v3/files?q=${folderId}+in+parents&key=${process.env.GOOGLE_API_KEY}`)
+      : (url = `https://www.googleapis.com/drive/v3/files?alt=json`);
+
+    try {
+      const response = await axios.get(url, {
+        headers: {
+          Authorization: `Bearer ${auth.token.access_token}`,
+        },
+      });
+
+      return {
+        data: response.data,
+        status: response.status,
+      };
+    } catch (error) {
+      throw new BadRequestException({
+        message: 'Error getting files list:' + error.message,
+        error: error,
+      });
+    }
+  }
+
+  async uploadFile(auth: GoogleData, folderId: string) {
+    const drive = google.drive({
+      version: 'v3',
+      auth: auth.token.access_token,
+    });
+
+    const fileMetadata = {
+      name: 'filecreation.txt',
+      parents: [folderId],
+    };
+    const media = {
+      mimeType: 'text/plain',
+      body: fs.createReadStream('', 'utf8'),
+    };
+    try {
+      const file = await drive.files.create({
+        requestBody: fileMetadata,
+        media: media,
+      });
+      console.log('File Id:', file.data.id);
+      return file.data.id;
+    } catch (err) {
+      console.log('erro:', err);
+      throw err;
+    }
+  }
 }

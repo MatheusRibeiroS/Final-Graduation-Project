@@ -4,6 +4,6 @@ import { DriveService } from './drive.service';
 
 @Module({
   controllers: [DriveController],
-  providers: [DriveService]
+  providers: [DriveService],
 })
 export class DriveModule {}

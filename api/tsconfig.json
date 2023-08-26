@@ -1,10 +1,14 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "declaration": true,
+    "declaration": true,    
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "removeComments": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "declarationDir": "./dist/@types",
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
     "sourceMap": true,

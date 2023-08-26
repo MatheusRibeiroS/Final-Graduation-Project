@@ -1,46 +1,21 @@
-import NextAuth from "next-auth";
-import Auth0Provider from "next-auth/providers/auth0";
-import GoogleProvider from "next-auth/providers/google";
-import jwt from 'next-auth/jwt'
-import fs from 'fs'
+"use client";
+import SlideOvers from "@/components/Slide-overs";
+import { useSession, signIn, signOut } from "next-auth/react";
+import { GET } from "@/app/api/auth/[...nextauth]/route";
+import { useEffect, useState } from "react";
 
-const handler = NextAuth({
-  debug: true,
-  providers: [
-    Auth0Provider({
-      clientId: process.env.AUTH0_CLIENT_ID || "",
-      clientSecret: process.env.AUTH0_CLIENT_SECRET || "",
-      issuer: process.env.AUTH0_ISSUER,
-    }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-      authorization: {
-        params: {
-          scope: "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file",
-      }
-    }
-    }),
-  ],
-  callbacks: {
-    jwt: ({token, account })=> {
-      if (account?.access_token) {
-        token.access_token = account.access_token;
-      }
-      // create json file with accounbt object
-      fs.writeFile('userCredentials.json', JSON.stringify(account), (err) => {
-        if (err) throw err;
-        console.log('Data written to file');
-      });
+export default function Home() {
+  const { data: token, status } = useSession();
 
-      console.log('token', token)
-      return token;
-    },
-  },
-  // pages: {
-  //   signIn: "/auth/signin",
-  //   signOut: "/auth/signout",
-  // },
-});
+  console.log("token", token);
 
-export { handler as GET, handler as POST }
+  return (
+    <main>
+      <div>
+        <button onClick={() => signIn("google")}>entrar</button>
+        <button onClick={() => signOut()}>sair</button>
+        {/* <SlideOvers /> */}
+      </div>
+    </main>
+  );
+}

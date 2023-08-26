@@ -5,6 +5,27 @@ export interface GoogleBody extends ChatBody {
   googleCSEId: string;
 }
 
+export type GoogleAccount = {
+  provider: string,
+  type: string,
+  providerAccountId: string,
+  access_token: string,
+  expires_at: number,
+  scope: string | string[],
+  token_type: string,
+  id_token: string
+}
+
+export type GoogleToken = {
+    name: string,
+    email: string,
+    picture: string,
+    sub: string,
+    access_token: string
+}
+
+export type GoogleData = GoogleAccount & GoogleToken;
+
 export interface GoogleResponse {
   message: Message;
 }
