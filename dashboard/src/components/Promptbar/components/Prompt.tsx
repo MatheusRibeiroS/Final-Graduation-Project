@@ -3,21 +3,21 @@ import {
   IconCheck,
   IconTrash,
   IconX,
-} from '@tabler/icons-react';
+} from "@tabler/icons-react";
 import {
   DragEvent,
   MouseEventHandler,
   useContext,
   useEffect,
   useState,
-} from 'react';
+} from "react";
 
-import { Prompt } from '@/types/prompt';
+import { Prompt } from "@/types/prompt";
 
-import SidebarActionButton from '@/components/Buttons/SidebarActionButton';
+import SidebarActionButton from "@/components/Buttons/SidebarActionButton";
 
-import PromptbarContext from '../PromptBar.context';
-import { PromptModal } from './PromptModal';
+import PromptbarContext from "../PromptBar.context";
+import { PromptModal } from "./PromptModal";
 
 interface Props {
   prompt: Prompt;
@@ -33,11 +33,11 @@ export const PromptComponent = ({ prompt }: Props) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState(false);
   const [isRenaming, setIsRenaming] = useState(false);
-  const [renameValue, setRenameValue] = useState('');
+  const [renameValue, setRenameValue] = useState("");
 
   const handleUpdate = (prompt: Prompt) => {
     handleUpdatePrompt(prompt);
-    promptDispatch({ field: 'searchTerm', value: '' });
+    promptDispatch({ field: "searchTerm", value: "" });
   };
 
   const handleDelete: MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -45,7 +45,7 @@ export const PromptComponent = ({ prompt }: Props) => {
 
     if (isDeleting) {
       handleDeletePrompt(prompt);
-      promptDispatch({ field: 'searchTerm', value: '' });
+      promptDispatch({ field: "searchTerm", value: "" });
     }
 
     setIsDeleting(false);
@@ -63,7 +63,7 @@ export const PromptComponent = ({ prompt }: Props) => {
 
   const handleDragStart = (e: DragEvent<HTMLButtonElement>, prompt: Prompt) => {
     if (e.dataTransfer) {
-      e.dataTransfer.setData('prompt', JSON.stringify(prompt));
+      e.dataTransfer.setData("prompt", JSON.stringify(prompt));
     }
   };
 
@@ -76,7 +76,7 @@ export const PromptComponent = ({ prompt }: Props) => {
   }, [isRenaming, isDeleting]);
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative items-center">
       <button
         className="flex w-full cursor-pointer items-center gap-3 rounded-lg p-3 text-sm transition-colors duration-200 hover:bg-[#343541]/90"
         draggable="true"
@@ -88,7 +88,7 @@ export const PromptComponent = ({ prompt }: Props) => {
         onMouseLeave={() => {
           setIsDeleting(false);
           setIsRenaming(false);
-          setRenameValue('');
+          setRenameValue("");
         }}
       >
         <IconBulbFilled size={18} />

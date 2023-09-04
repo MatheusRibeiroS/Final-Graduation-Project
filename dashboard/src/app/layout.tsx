@@ -23,7 +23,7 @@ export const metadata = {
   image: "/favicon.ico",
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout( { children, session, ...params }: { children: ReactNode, session:  any, params: any }) {
   const contextValue = useCreateReducer<HomeInitialState>({
     initialState,
   });
@@ -105,14 +105,14 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           }}
         >
           {/* <SwipeableEdgeDrawer /> */}
-          <HorizontalDrawer />
+          {/* <HorizontalDrawer /> */}
           <LeftSider />
-          {/* <Promptbar /> */}
+          <Promptbar />
           {/* <RightDrawer /> */}
           {/* <Container>
           <iframe src="https://vscode.dev/" width="800" height="600"></iframe>
         </Container> */}
-          <SessionProvider>{children}</SessionProvider>
+          <SessionProvider session={session}>{children}</SessionProvider>
         </HomeContext.Provider>
       </body>
     </html>

@@ -18,7 +18,7 @@ const handler = NextAuth({
       authorization: {
         params: {
           scope:
-            "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file",
+            "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/drive.file https://www.googleapis.com/auth/drive https://www.googleapis.com/auth/drive.metadata https://www.googleapis.com/auth/drive.appdata https://www.googleapis.com/auth/drive.readonly",
         },
       },
     }),
@@ -32,23 +32,29 @@ const handler = NextAuth({
         token,
         account,
       };
-        fs.writeFile(
-          "credentials.json",
-          JSON.stringify(userCredentials),
-          (err) => {
-            if (err) throw err;
-            console.log("Data written to file");
-          }
-        );
+      fs.writeFile(
+        "credentials.json",
+        JSON.stringify(userCredentials),
+        (err) => {
+          if (err) throw err;
+          console.log("Data written to file");
+        }
+      );
 
       console.log("token", token);
       return token;
     },
+
+    async session({ session, token, user }) {
+      session.user = user;
+      session.token = token;
+      return session;
+    }
   },
-  // pages: {
-  //   signIn: "/auth/signin",
-  //   signOut: "/auth/signout",
-  // },
+  pages: {
+    signIn: "/auth/signin",
+    signOut: "/auth/signout",
+  },
 });
 
 export { handler as GET, handler as POST };

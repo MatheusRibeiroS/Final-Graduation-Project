@@ -24,7 +24,10 @@ export type GoogleToken = {
     access_token: string
 }
 
-export type GoogleData = GoogleAccount & GoogleToken;
+export type GoogleData = {
+  token: GoogleToken;
+  account: GoogleAccount;
+};
 
 export interface GoogleResponse {
   message: Message;

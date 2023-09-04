@@ -2,6 +2,7 @@
 import List from "@mui/material/List";
 import HomeIcon from "@mui/icons-material/Home";
 import StyledBox from "./styles";
+import { AxiosResponse } from "axios";
 import Button from "@mui/material/Button";
 import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
@@ -9,8 +10,22 @@ import Avatar from "@mui/material/Avatar";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import ChatIcon from "@mui/icons-material/Chat";
+import { getCredentials } from "@/service/getCredentials";
+import { useEffect, useState } from "react";
+import { GoogleData } from "@/types/google";
 
 export default function LeftSider() {
+  const [credentials, setCredentials] =
+    useState<AxiosResponse<GoogleData>>();
+
+  useEffect(() => {
+    if (!credentials) {
+    getCredentials().then((response) => {
+      setCredentials(response);
+    });
+  }
+  }, [credentials]);
+
   return (
     <StyledBox>
       <List className="list-margin">
@@ -20,10 +35,7 @@ export default function LeftSider() {
         <Button className="button-marging">
           <Avatar
             alt="Remy Sharp"
-            src={
-              `https://lh3.googleusercontent.com/a/AAcHTteVdUovAIOdz7Qqr5xUeodeuqFrWl6eDKFJQxMS79hHgGE=s96-c` ||
-              `https://source.unsplash.com/50x50`
-            }
+            src={`${credentials?.data?.token?.picture}` || ""}
           />
         </Button>
         <Button className="button-marging">

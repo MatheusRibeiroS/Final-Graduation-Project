@@ -6,8 +6,7 @@ export const StyledBox = styled(Box)<BoxProps>`
   width: 10%;
   height: 100vh;
   background-color: rgba(32, 33, 35, 0.55);
-  z-index: 100;
-  
+  z-index: 1;
 
   .list-margin {
     width: 100%;
