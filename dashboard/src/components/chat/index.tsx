@@ -28,34 +28,6 @@ export function Chat({ userProfilePicture }: { userProfilePicture: string }) {
     },
   });
    
-  messages.push(
-    {
-      id: "1",
-      content: "Olá, tudo bem?",
-      role: "assistant",
-    },
-    {
-      id: "2",
-      content: "Tudo bem, e você?",
-      role: "user",
-    },
-    {
-      id: "3",
-      content: "Estou bem, obrigado por perguntar.",
-      role: "assistant",
-    },
-    {
-      id: "4",
-      content: "Que bom!",
-      role: "user",
-    },
-    {
-      id: "5",
-      content:
-        "O que você está fazendo????????????",
-      role: "assistant",
-    }
-  );
   return (
     <Card variant="outlined" className="w-[500px] h-[700px] mt-7 ml-12 bg-[#18181a]">
       <Box className="m-4">

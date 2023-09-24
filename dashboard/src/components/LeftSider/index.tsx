@@ -41,11 +41,6 @@ export default function LeftSider() {
     }
   }, [userProfilePicture]);
 
-  // useEffect(() => {
-  //   if (open === true) {
-  //     handleDrawerOpen();
-  //   }
-  // }, [open]);
 
   const handleDrawerOpen = () => {
     setOpen(!open);
