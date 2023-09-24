@@ -1,0 +1,1 @@
+export type DrawerOptions = "home" | "perfil" | "notes" | "calendar" | "chat" | null;

@@ -13,40 +13,76 @@ import ChatIcon from "@mui/icons-material/Chat";
 import { getCredentials } from "@/service/getCredentials";
 import { useEffect, useState } from "react";
 import { GoogleData } from "@/types/google";
+import HorizontalDrawer from "@/components/Drawer";
+import { DrawerOptions } from "@/types/drawerOptions";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export default function LeftSider() {
   const [credentials, setCredentials] =
-    useState<AxiosResponse<GoogleData>>();
+    useState<AxiosResponse<GoogleData> | null>(null);
+  const [open, setOpen] = useState<boolean>(false);
+  const [options, setOptions] = useState<DrawerOptions>(null);
+  const [userProfilePicture, setUserProfilePicture] = useState<string | null>(
+    null
+  );
 
   useEffect(() => {
     if (!credentials) {
-    getCredentials().then((response) => {
-      setCredentials(response);
-    });
-  }
+      getCredentials().then((response) => {
+        setCredentials(response || null);
+        setUserProfilePicture(response?.data?.token?.picture || null);
+      });
+    }
   }, [credentials]);
+
+  useEffect(() => {
+    if (typeof userProfilePicture === "string") {
+      localStorage.setItem("userProfilePicture", userProfilePicture);
+    }
+  }, [userProfilePicture]);
+
+  // useEffect(() => {
+  //   if (open === true) {
+  //     handleDrawerOpen();
+  //   }
+  // }, [open]);
+
+  const handleDrawerOpen = () => {
+    setOpen(!open);
+  };
 
   return (
     <StyledBox>
       <List className="list-margin">
-        <Button className="button-marging">
+        <Button onClick={() => setOptions("home")} className="button-marging">
           <HomeIcon fontSize="large" />
         </Button>
-        <Button className="button-marging">
-          <Avatar
-            alt="Remy Sharp"
-            src={`${credentials?.data?.token?.picture}` || ""}
-          />
+        <Button onClick={() => setOptions("perfil")} className="button-marging">
+          <Avatar src={`${credentials?.data?.token?.picture}` || ""} />
         </Button>
-        <Button className="button-marging">
+        <Button onClick={() => setOptions("notes")} className="button-marging">
           <EditNoteIcon fontSize="large" />
         </Button>
-        <Button className="button-marging">
+        <Button
+          onClick={() => setOptions("calendar")}
+          className="button-marging"
+        >
           <CalendarMonthIcon fontSize="large" />
         </Button>
-        <Button className="button-marging">
+        <Button
+          onClick={() => {
+            setOptions("chat");
+            handleDrawerOpen();
+          }}
+          className="button-marging"
+        >
           <ChatIcon fontSize="large" />
         </Button>
+        <HorizontalDrawer
+          userProfilePicture={userProfilePicture || ""}
+          open={open}
+          option={options}
+        />
       </List>
     </StyledBox>
   );

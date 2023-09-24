@@ -1,6 +1,6 @@
 "use client";
 import "./globals.css";
-import { ReactNode } from "react";
+import { ReactNode, useEffect } from "react";
 import { SessionProvider } from "next-auth/react";
 import HorizontalDrawer from "../components/Drawer";
 import LeftSider from "../components/LeftSider";
@@ -16,14 +16,23 @@ import { FolderInterface, FolderType } from "@/types/folder";
 import { Prompt } from "@/types/prompt";
 import { savePrompts } from "@/utils/app/prompts";
 import Promptbar from "../components/Promptbar";
+import { Toaster } from "react-hot-toast";
 
-export const metadata = {
-  title: "TCC - Bachelor's Thesis",
-  description: "MatheusRibeiroS Bachelor's Thesis (TCC project)",
-  image: "/favicon.ico",
-};
+// export const metadata = {
+//   title: "TCC - Bachelor's Thesis",
+//   description: "MatheusRibeiroS Bachelor's Thesis (TCC project)",
+//   image: "/favicon.ico",
+// };
 
-export default function RootLayout( { children, session, ...params }: { children: ReactNode, session:  any, params: any }) {
+export default function RootLayout({
+  children,
+  session,
+  ...params
+}: {
+  children: ReactNode;
+  session: any;
+  params: any;
+}) {
   const contextValue = useCreateReducer<HomeInitialState>({
     initialState,
   });
@@ -93,6 +102,33 @@ export default function RootLayout( { children, session, ...params }: { children
     saveFolders(updatedFolders);
   };
 
+  useEffect(() => {
+    if (window.innerWidth < 640) {
+      dispatch({ field: "showChatbar", value: false });
+      dispatch({ field: "showPromptbar", value: false });
+    }
+
+    const showChatbar = localStorage.getItem("showChatbar");
+    if (showChatbar) {
+      dispatch({ field: "showChatbar", value: showChatbar === "true" });
+    }
+
+    const showPromptbar = localStorage.getItem("showPromptbar");
+    if (showPromptbar) {
+      dispatch({ field: "showPromptbar", value: showPromptbar === "true" });
+    }
+
+    const folders = localStorage.getItem("folders");
+    if (folders) {
+      dispatch({ field: "folders", value: JSON.parse(folders) });
+    }
+
+    const prompts = localStorage.getItem("prompts");
+    if (prompts) {
+      dispatch({ field: "prompts", value: JSON.parse(prompts) });
+    }
+  }, [dispatch]);
+
   return (
     <html lang="en">
       <body>
@@ -104,10 +140,11 @@ export default function RootLayout( { children, session, ...params }: { children
             handleUpdateFolder,
           }}
         >
+          <Toaster />
           {/* <SwipeableEdgeDrawer /> */}
           {/* <HorizontalDrawer /> */}
           <LeftSider />
-          <Promptbar />
+          {/* <Promptbar /> */}
           {/* <RightDrawer /> */}
           {/* <Container>
           <iframe src="https://vscode.dev/" width="800" height="600"></iframe>

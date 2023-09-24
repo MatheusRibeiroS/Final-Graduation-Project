@@ -1,4 +1,6 @@
+import { Session } from '@auth0/nextjs-auth0';
 import { OpenAIModel } from './openai';
+import { GoogleToken } from "@/types/google";
 
 export interface Message {
   role: Role;
