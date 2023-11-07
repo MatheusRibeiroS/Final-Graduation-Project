@@ -1,7 +1,8 @@
-import Box, { BoxProps } from "@mui/material/Box";
+import BoxProps from "@mui/material/Box";
+import Box from "@mui/material/Box";
 import { styled } from "@mui/material";
 
-export const StyledBox = styled(Box)<BoxProps>`
+export const StyledBox = styled(Box)<typeof BoxProps>`
   display: flex;
   width: 10%;
   height: 100vh;

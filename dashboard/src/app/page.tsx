@@ -12,7 +12,9 @@ import Editor from "@/components/editor";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import RightDrawer from "../components/RightSider";
-import { ThemeProvider, createTheme, useTheme } from "@mui/material/styles";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import createTheme from "@mui/material/styles/createTheme";
+import useTheme from "@mui/material/styles/useTheme";
 import React from "react";
 import { Roboto } from "next/font/google";
 import {

@@ -1,14 +1,12 @@
 "use client";
-import {
-  Box,
-  Card,
-  CardContent,
-  Typography,
-  Avatar,
-  TextField,
-  Button,
-  Stack,
-} from "@mui/material";
+import Box from "@mui/material/Box";
+import Card from "@mui/material/Card";
+import CardContent from "@mui/material/CardContent";
+import Typography from "@mui/material/Typography";
+import Avatar from "@mui/material/Avatar";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import Stack from "@mui/material/Stack";
 import SmartToyIcon from "@mui/icons-material/SmartToy";
 import { useChat } from "ai/react";
 import { GoogleToken } from "@/types/google";

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Global } from "@emotion/react";
-import { styled } from "@mui/material/styles";
+import styled from "@mui/material/styles/styled";
 import CssBaseline from "@mui/material/CssBaseline";
-import { grey } from "@mui/material/colors";
+import grey from "@mui/material/colors/grey";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import HomeIcon from "@mui/icons-material/Home";
