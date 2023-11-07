@@ -1,25 +1,45 @@
-import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import CreateNewFolderIcon from "@mui/icons-material/CreateNewFolder";
+import { files } from "./components/entry/files";
+import Entry from "./components/entry";
+import {
+  useEffect,
+  useState,
+  Fragment,
+  MouseEvent,
+  KeyboardEvent,
+} from "react";
 import Grid from "@mui/material/Grid";
+import TextField from "@mui/material/TextField";
 
 type Anchor = "top" | "left" | "bottom" | "right";
 
+const handleCreateFolder = () => {
+  files.children?.push({
+    name: "Nova Pasta" + Date.now(),
+    children: [],
+  });
+};
+
 export default function RightDrawer() {
-  const [state, setState] = React.useState({
+  const [state, setState] = useState({
     right: false,
   });
 
+  document.documentElement.classList.add("dark");
+
+  useEffect(() => {
+    console.log("files", files);
+  }, [files]);
   const toggleDrawer =
-    (anchor: Anchor, open: boolean) =>
-    (event: React.KeyboardEvent | React.MouseEvent) => {
+    (anchor: Anchor, open: boolean) => (event: KeyboardEvent | MouseEvent) => {
       if (
         event.type === "keydown" &&
-        ((event as React.KeyboardEvent).key === "Tab" ||
-          (event as React.KeyboardEvent).key === "Shift")
+        ((event as KeyboardEvent).key === "Tab" ||
+          (event as KeyboardEvent).key === "Shift")
       ) {
         return;
       }
@@ -35,23 +55,42 @@ export default function RightDrawer() {
         backgroundColor: "#202123",
       }}
       role="presentation"
-      onClick={toggleDrawer(anchor, false)}
+      // onClick={toggleDrawer(anchor, false)}
       onKeyDown={toggleDrawer(anchor, false)}
     >
       <Grid direction="column">
         <Grid display="flex">
-          <button className="text-sidebar flex w-[150px] flex-shrink-0 ml-3 mt-5 cursor-pointer select-none items-center gap-2 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10">
-            {"Pesquisa..."}
-          </button>
+          {/* <button
+            className="text-sidebar flex w-[150px] flex-shrink-0 ml-3 mt-5 cursor-pointer select-none items-center gap-2 rounded-md border border-white/20 p-3 text-white transition-colors duration-200 hover:bg-gray-500/10"
+          >
+            {""}
+          </button> */}
+          <Box className="m-4 mt-26">
+            <TextField
+              className="flex w-32 h-3 border-white cursor-pointer items-center text-white duration-200 hover:bg-gray-500/10"
+              color="primary"
+              id="input-file-name"
+              label="Nome do arquivo"
+              variant="standard"
+            />
+          </Box>
           <Box className="ml-2 mt-6">
-            <Button className="bg-transparent rounded-md border border-white gap-2"
-              // onClick={handleCreateFolder}
+            <Button
+              variant="contained"
+              className="bg-transparent dark:bg-dark rounded-md border border-white gap-2"
+              onClick={handleCreateFolder}
             >
               <CreateNewFolderIcon />
             </Button>
           </Box>
         </Grid>
-        <Grid></Grid>
+        <Grid>
+          <Box className="p-4">
+            {files.children?.map((entry) => (
+              <Entry entry={entry} depth={1} />
+            ))}
+          </Box>
+        </Grid>
       </Grid>
       {/* <List>
         {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
@@ -82,7 +121,7 @@ export default function RightDrawer() {
   return (
     <Box>
       {(["right"] as const).map((anchor) => (
-        <React.Fragment key={anchor}>
+        <Fragment key={anchor}>
           <Button onClick={toggleDrawer(anchor, true)}>{anchor}</Button>
           <Drawer
             sx={{
@@ -97,11 +136,11 @@ export default function RightDrawer() {
             }}
             anchor={anchor}
             open={state[anchor]}
-            onClose={toggleDrawer(anchor, false)}
+            // onClose={toggleDrawer(anchor, false)}
           >
             {list(anchor)}
           </Drawer>
-        </React.Fragment>
+        </Fragment>
       ))}
     </Box>
   );

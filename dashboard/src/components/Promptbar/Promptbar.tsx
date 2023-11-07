@@ -127,7 +127,7 @@ const Promptbar = () => {
     >
       <Sidebar<Prompt>
         side={'right'}
-        isOpen={true}
+        isOpen={showPromptbar}
         addItemButtonTitle={t('New prompt')}
         itemComponent={
           <Prompts

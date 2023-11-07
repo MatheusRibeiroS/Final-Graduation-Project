@@ -14,6 +14,7 @@ import { useChat } from "ai/react";
 import { GoogleToken } from "@/types/google";
 import { toast } from "react-hot-toast";
 import { Session } from "next-auth";
+import { IconCircleArrowDown } from "@tabler/icons-react";
 
 export function Chat({ userProfilePicture }: { userProfilePicture: string }) {
   const { messages, input, handleInputChange, handleSubmit, error } = useChat({
@@ -27,14 +28,42 @@ export function Chat({ userProfilePicture }: { userProfilePicture: string }) {
       );
     },
   });
-   
+
+  messages.push(
+    {
+      id: "1",
+      content: "Olá, em que posso te ajudar?",
+      role: "assistant",
+    },
+    {
+      id: "2",
+      content: "Me explique em poucas palavras o que é javascript",
+      role: "user",
+    },
+    {
+      id: "3",
+      content:
+        "JavaScript é uma linguagem de programação usada para criar interatividade em páginas da web, tornando-as dinâmicas e capazes de responder a ações do usuário. Ela é executada no navegador e é fundamental para o desenvolvimento de aplicativos web.",
+      role: "assistant",
+    }
+  );
+
   return (
-    <Card variant="outlined" className="w-[500px] h-[700px] mt-7 ml-12 bg-[#18181a]">
-      <Box className="m-4">
-        <Typography color="black">Chat Bot</Typography>
-      </Box>
-      <CardContent>
-        <Box className="relative">
+    <Card
+      variant="outlined"
+      className="w-[500px] h-[700px] mt-7 ml-12 bg-[#18181a] z-10"
+    >
+      <CardContent className="bg-[#18181a] z-10">
+        <Box className="m-4">
+          <Typography color="white">ChatBot</Typography>
+        </Box>
+        <Box
+          sx={{
+            width: "450px",
+            height: "520px",
+            backgroundColor: "#18181a",
+          }}
+        >
           {messages.map((message) => (
             <Stack
               key={message.id}
@@ -55,18 +84,19 @@ export function Chat({ userProfilePicture }: { userProfilePicture: string }) {
             </Stack>
           ))}
         </Box>
-        <Box className="fixed mt-36">
+        <Stack direction="row" className="flex mt-4 items-center">
           <form onSubmit={handleSubmit}>
             <TextField
-            sx={{ border: "1px solid #fff" }}
+              className="rounded"
+              sx={{ border: "1px solid #fff" }}
               variant="outlined"
               value={input}
               onChange={handleInputChange}
               placeholder="Type a message"
             />
-            <Button type="submit">Send</Button>
+            <Button type="submit">Enviar</Button>
           </form>
-        </Box>
+        </Stack>
       </CardContent>
     </Card>
   );

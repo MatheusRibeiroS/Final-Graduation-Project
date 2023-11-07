@@ -31,6 +31,10 @@ export default function HorizontalDrawer({
     }
   };
 
+  const closeDrawer = () => {
+    setOpenDrawer(false);
+  }
+
   const toggleDrawer =
     () => (event: React.KeyboardEvent | React.MouseEvent) => {
       if (
@@ -51,7 +55,7 @@ export default function HorizontalDrawer({
         width: 600,
         backgroundColor: "#202123",
       }}
-      role="presentation"
+      role="document"
       children={validateOption(option)}
       onClick={toggleDrawer()}
       onKeyDown={toggleDrawer()}
